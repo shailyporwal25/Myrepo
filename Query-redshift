@@ -1,0 +1,4 @@
+select query, segment, step, label ,is_rrscan as rrS, is_diskbased as disk, is_delayed_scan as DelayS,  min(start_time) as starttime, max(end_time) as endtime, datediff(ms, min(start_time), max(end_time))  as "elapsed_msecs", sum(rows) as row_s , sum(rows_pre_filter) as rows_pf, CASE WHEN sum(rows_pre_filter) = 0 THEN 100 ELSE sum(rows)::float/sum(rows_pre_filter)::float*100 END as pct_filter, SUM(workmem)/1024/1024 as "Memory(MB)", SUM(bytes)/1024/1024 as "MB_produced"
+from svl_query_report where query in (3372746) 
+group by query, segment, step, label , is_rrscan, is_diskbased , is_delayed_scan 
+order by query, segment, step, label;
